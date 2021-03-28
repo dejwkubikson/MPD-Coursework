@@ -15,25 +15,18 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
-import com.example.mpd_coursework.ui.main.PlaceholderFragment;
-
 import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
-    ArrayList<String> ListViewTitle = new ArrayList();
-    ArrayList<String> ListViewDescription = new ArrayList();
+    ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
+    float highestMag = 0.0f;
+    float lowestMag = 0.0f;
+
+
     public FirstFragment()
     {
         // Empty public constructor
         AssignData();
-    }
-
-    public void AssignData(){
-        DataFeed getFeed = new DataFeed();
-        getFeed.execute();
-
-        ListViewTitle = getFeed.getHeadlines();
-        ListViewDescription = getFeed.getDescriptions();
     }
 
     @Override
@@ -59,11 +52,18 @@ public class FirstFragment extends Fragment {
         return root;
     }
 
+    public void AssignData(){
+        DataFeed getFeed = new DataFeed();
+        getFeed.execute();
+
+        ListEarthQuakes = getFeed.getEarthQuakes();
+    }
+
     private class CustomAdapter extends BaseAdapter {
         @Override
         public int getCount()
         {
-            return ListViewTitle.size();
+            return ListEarthQuakes.size();
         }
 
         @Override
@@ -80,11 +80,19 @@ public class FirstFragment extends Fragment {
         public View getView(int i, View view, ViewGroup viewGroup) {
             View itemView = getLayoutInflater().inflate(R.layout.item_layout, null);
 
-            TextView name = itemView.findViewById(R.id.Title);
-            TextView desc = itemView.findViewById(R.id.Description);
+            // EarthQuakeID, EarthQuakeColour,
+            TextView eID = itemView.findViewById(R.id.EarthQuakeID);
+            View eColour = itemView.findViewById(R.id.EarthQuakeColour);
+            TextView mag = itemView.findViewById(R.id.Magnitude);
+            TextView location = itemView.findViewById(R.id.Location);
+            TextView eDate = itemView.findViewById(R.id.EarthQuakeDate);
 
-            name.setText(ListViewTitle.get(i));
-            desc.setText(ListViewDescription.get(i));
+            EarthQuake earthQuake = ListEarthQuakes.get(i);
+
+            eID.setText(Integer.toString(earthQuake.earthQuakeID));
+            mag.setText(Float.toString(earthQuake.magnitude));
+            location.setText(earthQuake.location);
+            eDate.setText(earthQuake.eDate);
 
             return itemView;
         }

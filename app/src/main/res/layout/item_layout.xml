@@ -12,15 +12,35 @@
     android:orientation="horizontal"
     android:elevation="5dp">
 
+    <TextView
+        android:id="@+id/EarthQuakeID"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="0"
+        android:text="0"
+        android:visibility="invisible" />
+
     <View
         android:id="@+id/EarthQuakeColour"
-        android:layout_width="10dp"
+        android:layout_width="3dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="#f00" />
 
+    <TextView
+        android:id="@+id/Magnitude"
+        android:layout_width="18dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="99.99"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:translationX="6dp" />
+
     <LinearLayout
-        android:layout_width="354dp"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
@@ -28,7 +48,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/Title"
+            android:id="@+id/Location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Title"
@@ -38,7 +58,7 @@
             android:transitionName="titleTransition" />
 
         <TextView
-            android:id="@+id/Description"
+            android:id="@+id/EarthQuakeDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description"
