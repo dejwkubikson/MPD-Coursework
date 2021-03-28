@@ -1,5 +1,7 @@
 package com.example.mpd_coursework.ui.main;
 
+import android.util.Log;
+
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,12 +14,17 @@ public class PageViewModel extends ViewModel {
     private LiveData<String> mText = Transformations.map(mIndex, new Function<Integer, String>() {
         @Override
         public String apply(Integer input) {
+            Log.e("Tag", "Input " + input);
             return "Hello world from section: " + input;
         }
     });
 
     public void setIndex(int index) {
         mIndex.setValue(index);
+    }
+
+    public int getIndex(){
+        return mIndex.getValue();
     }
 
     public LiveData<String> getText() {

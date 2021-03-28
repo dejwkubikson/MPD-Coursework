@@ -13,6 +13,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TableLayout;
+import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.example.mpd_coursework.ui.main.SectionsPagerAdapter;
 
@@ -31,11 +34,29 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+                //Log.e("SLE", "Position: " + position);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         ArrayList<String> headlines = new ArrayList<>();
 
-        DataFeed getFeed = new DataFeed();
+        /*DataFeed getFeed = new DataFeed();
         getFeed.execute();
-        headlines = getFeed.heads();
+        headlines = getFeed.heads();*/
 
         //headlines.forEach(headline -> Log.e("NewTag", headline));
 
