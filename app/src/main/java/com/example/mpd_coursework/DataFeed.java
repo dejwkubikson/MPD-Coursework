@@ -48,7 +48,7 @@ public class DataFeed extends AsyncTask {
                         {
                             String headline = xpp.nextText();
                             headlines.add(headline); // Extracting the headline
-                            Log.e("MyTag", "Description " + headline);
+                            //Log.e("MyTag", "Description " + headline);
                         }
                     }
                     else if(xpp.getName().equalsIgnoreCase("description"))
@@ -57,7 +57,7 @@ public class DataFeed extends AsyncTask {
                         {
                             String description = xpp.nextText();
                             descriptions.add(description); // Extracting the description
-                            Log.e("MyTag", "Description " + description);
+                            //Log.e("MyTag", "Description " + description);
                         }
                     }
                 }
@@ -93,10 +93,12 @@ public class DataFeed extends AsyncTask {
         }
     }
 
-    public ArrayList<String> heads()
+    public ArrayList<String> getHeadlines()
     {
         return headlines;
     }
+
+    public ArrayList<String> getDescriptions() {return descriptions;}
 }
 
 
