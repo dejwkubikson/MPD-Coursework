@@ -19,6 +19,9 @@ public class DataFeed extends AsyncTask {
     private String urlSource = "http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
     ArrayList<EarthQuake> earthQuakes = new ArrayList<EarthQuake>();
 
+    float highestMag = 0.0f;
+    float lowestMag = Float.MAX_VALUE;
+
     int currentID = 0;
 
     @Override
@@ -63,11 +66,27 @@ public class DataFeed extends AsyncTask {
                             String description = xpp.nextText();
 
                             // Extracting location - looking for "Location:" and ";"
-                            earthQuake.location = description.substring(description.indexOf("Location:") + 9, (description.indexOf(";", description.indexOf("Location:") + 9))).trim();
+                            String location = description.substring(description.indexOf("Location:") + 9, (description.indexOf(";", description.indexOf("Location:") + 9))).trim();
+                            // Adding spaces after each commas (',')
+                            location = location.replaceAll("[,]", "$0 ");
+
+                            earthQuake.location = location;
                             //Log.e("DataFeed", "location " + earthQuake.location);
 
                             // Extracting magnitude - looking for "Magnitude:"
-                            earthQuake.magnitude = Float.parseFloat(description.substring(description.indexOf("Magnitude:") + 10).trim());
+                            float mag =  Float.parseFloat(description.substring(description.indexOf("Magnitude:") + 10).trim());
+                            earthQuake.magnitude = mag;
+
+                            if(mag < lowestMag)
+                            {
+                                //Log.e("DataFeed", "Found new lowest mag " + mag);
+                                lowestMag = mag;
+                            }
+                            if(mag > highestMag)
+                            {
+                                //Log.e("DataFeed", "Found new highest mag " + mag);
+                                highestMag = mag;
+                            }
                             //Log.e("DataFeed", "magnitude " + earthQuake.magnitude);
 
                             // Extracting depth - looking for "Depth:" and "km"
@@ -135,7 +154,18 @@ public class DataFeed extends AsyncTask {
         }
     }
 
-    public ArrayList<EarthQuake> getEarthQuakes(){return earthQuakes;}
+    public ArrayList<EarthQuake> getEarthQuakes(){
+        return earthQuakes;
+    }
+
+    public Float getHighestMag(){
+        return highestMag;
+    }
+
+    public Float getLowestMag(){
+        return lowestMag;
+    }
+
 }
 
 

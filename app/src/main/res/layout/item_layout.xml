@@ -34,7 +34,7 @@
         android:layout_weight="1"
         android:text="99.99"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         android:translationX="6dp" />
@@ -52,19 +52,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Title"
-            android:textColor="@android:color/black"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
             android:transitionName="titleTransition" />
 
-        <TextView
-            android:id="@+id/EarthQuakeDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Description"
-            android:textColor="@android:color/black"
-            android:textSize="15sp"
-            android:transitionName="descTransition" />
     </LinearLayout>
 
 </LinearLayout>

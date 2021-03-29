@@ -1,5 +1,7 @@
 package com.example.mpd_coursework;
 
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
@@ -19,9 +22,7 @@ import java.util.ArrayList;
 
 public class FirstFragment extends Fragment {
     ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
-    float highestMag = 0.0f;
-    float lowestMag = 0.0f;
-
+    DataFeed dFeed;
 
     public FirstFragment()
     {
@@ -46,17 +47,28 @@ public class FirstFragment extends Fragment {
         FirstFragment.CustomAdapter adapter = new FirstFragment.CustomAdapter();
         listView.setAdapter(adapter);
 
-        //DataFeed getFeed = new DataFeed();
-        //getFeed.execute();
-
         return root;
     }
 
     public void AssignData(){
-        DataFeed getFeed = new DataFeed();
-        getFeed.execute();
+        dFeed = new DataFeed();
+        dFeed.execute();
 
-        ListEarthQuakes = getFeed.getEarthQuakes();
+        ListEarthQuakes = dFeed.getEarthQuakes();
+    }
+
+    public Float getMagnitudeColourRatio(float magnitude){
+        float newHighMag = dFeed.getHighestMag() - dFeed.getLowestMag();
+        //float newMag = magnitude - dFeed.getLowestMag();
+
+        //Log.e("FirstFragment", "newHighMag " + newHighMag + " newMag " + newMag + " ratio " + newMag / newHighMag);
+
+        // Returning ratio
+        if(newHighMag > 0)
+            //return newMag / newHighMag;
+            return magnitude / dFeed.getHighestMag();
+        else
+            return 0.0f;
     }
 
     private class CustomAdapter extends BaseAdapter {
@@ -80,19 +92,21 @@ public class FirstFragment extends Fragment {
         public View getView(int i, View view, ViewGroup viewGroup) {
             View itemView = getLayoutInflater().inflate(R.layout.item_layout, null);
 
-            // EarthQuakeID, EarthQuakeColour,
             TextView eID = itemView.findViewById(R.id.EarthQuakeID);
             View eColour = itemView.findViewById(R.id.EarthQuakeColour);
             TextView mag = itemView.findViewById(R.id.Magnitude);
             TextView location = itemView.findViewById(R.id.Location);
-            TextView eDate = itemView.findViewById(R.id.EarthQuakeDate);
-
             EarthQuake earthQuake = ListEarthQuakes.get(i);
 
             eID.setText(Integer.toString(earthQuake.earthQuakeID));
             mag.setText(Float.toString(earthQuake.magnitude));
             location.setText(earthQuake.location);
-            eDate.setText(earthQuake.eDate);
+
+            int resultColour = ColorUtils.blendARGB(Color.parseColor("#00FF00"), Color.parseColor("#FF0000"), getMagnitudeColourRatio(earthQuake.magnitude));
+
+            //Log.e("FirstFragment", "Magnitude: " + earthQuake.magnitude + " Hex colour " + Integer.toHexString(resultColour).substring(2));
+
+            eColour.setBackgroundColor(resultColour);
 
             return itemView;
         }
