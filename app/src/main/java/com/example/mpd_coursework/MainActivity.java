@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
+
     ViewPager viewPager;
     TabLayout tabLayout;
 
