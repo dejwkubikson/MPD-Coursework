@@ -9,6 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/brown_dark"
         android:theme="@style/Theme.MPDCoursework.AppBarOverlay">
 
         <TextView
@@ -25,8 +26,9 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/brown_dark"
             app:tabIconTint="@color/white"
+            app:tabIndicatorColor="@color/brown_dark"
             app:tabSelectedTextColor="@color/white"
             app:tabTextColor="@color/black" />
     </com.google.android.material.appbar.AppBarLayout>

@@ -107,15 +107,15 @@ public class DataFeed extends AsyncTask {
                         if(insideItem)
                         {
                             earthQuake.latitude = Float.parseFloat(xpp.nextText());
-                            //Log.e("DataFeed", "latitude " + earthQuake.latitude);
+                            Log.e("DataFeed", "latitude " + earthQuake.latitude);
                         }
                     }
-                    else if(xpp.getName().equalsIgnoreCase("geo:lat"))
+                    else if(xpp.getName().equalsIgnoreCase("geo:long"))
                     {
                         if(insideItem)
                         {
                             earthQuake.longitude = Float.parseFloat(xpp.nextText());
-                            //Log.e("DataFeed", "longitude " + earthQuake.longitude);
+                            Log.e("DataFeed", "longitude " + earthQuake.longitude);
                         }
                     }
                 }

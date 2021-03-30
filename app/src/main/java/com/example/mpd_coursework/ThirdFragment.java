@@ -7,7 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 public class ThirdFragment extends Fragment {
+    DataFeed dFeed;
+    ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
 
     public ThirdFragment()
     {
@@ -24,5 +28,12 @@ public class ThirdFragment extends Fragment {
     {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.stats_layout, container, false);
+    }
+
+    public void AssignData(){
+        dFeed = new DataFeed();
+        dFeed.execute();
+
+        ListEarthQuakes = dFeed.getEarthQuakes();
     }
 }

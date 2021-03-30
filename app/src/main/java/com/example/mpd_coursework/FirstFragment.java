@@ -20,6 +20,10 @@ import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
 
+// Displays a list that the user can scroll through.
+// The list should simply display the location and strength of the earthquake.
+// Colour coding that displays the earthquakes from strongest to weakest.
+// Colour coding done intentionally in such a way that the weakest magnitude will be green, rather than treating 0.0f as green.
 public class FirstFragment extends Fragment {
     ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
     DataFeed dFeed;
@@ -58,13 +62,13 @@ public class FirstFragment extends Fragment {
     }
 
     public Float getMagnitudeColourRatio(float magnitude){
-        float newHighMag = dFeed.getHighestMag() - dFeed.getLowestMag();
+        //float newHighMag = dFeed.getHighestMag() - dFeed.getLowestMag();
         //float newMag = magnitude - dFeed.getLowestMag();
 
         //Log.e("FirstFragment", "newHighMag " + newHighMag + " newMag " + newMag + " ratio " + newMag / newHighMag);
 
         // Returning ratio
-        if(newHighMag > 0)
+        if(dFeed.getHighestMag() > 0)
             //return newMag / newHighMag;
             return magnitude / dFeed.getHighestMag();
         else

@@ -1,18 +1,386 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/brown_main"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="STATS LAYOUT"
-        android:textSize="40dp"
-        android:textStyle="bold" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/plain1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Date From"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/dateFrom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="date"
+                        android:textAlignment="center"
+                        tools:text="20/02/2021" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/plain2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="100"
+                        android:text="Date To"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/dateTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:inputType="date"
+                        android:textAlignment="center"
+                        tools:text="20/02/2021" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/material_on_background_disabled"
+                    android:text="SHOW"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/statsDetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/spacebar8"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/space10"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/plain3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Most Northerly Earthquake"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/northDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Test Location 20/02/2021"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/space11"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/spacebar1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/space2"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/plain4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Most Southerly Earthquake"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/southDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Test Location 20/02/2021"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/space9"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/spacebar2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/space3"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/plain5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Most Westerly Earthquake"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/westDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Test Location 20/02/2021"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/space4"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/spacebar3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/space5"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/plain6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Most Easterly Earthquake"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/eastDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Test Location 20/02/2021"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/space6"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/spacebar4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/space7"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/plain7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Largest Magnitude"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/magnitudeDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Test Location 20/02/2021"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/space12"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/spacebar5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/space13"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/plain8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Deepest Earthquake"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/deepestDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Test Location 20/02/2021"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/space14"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/spacebar6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:id="@+id/space15"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/plain9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Shallowest Earthquake"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/shallowestDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Test Location 20/02/2021"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/space16"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="@color/brown_main" />
+
+                <TextView
+                    android:id="@+id/spacebar7"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white"
+                    android:textSize="19sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
