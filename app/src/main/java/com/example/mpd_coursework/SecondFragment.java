@@ -24,8 +24,8 @@ import java.util.ArrayList;
 // Pins are colour coded as per the strength of the earthquake.
 // Colour coding done intentionally in such a way that the weakest magnitude will be green, rather than treating 0.0f as green.
 public class SecondFragment extends Fragment implements OnMapReadyCallback {
-    DataFeed dFeed;
     ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
+    MainActivity activity;
 
     GoogleMap mMap;
 
@@ -36,6 +36,7 @@ public class SecondFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onCreate(Bundle savedInstanceState){
+        activity = (MainActivity)getActivity();
         super.onCreate(savedInstanceState);
     }
 
@@ -43,8 +44,7 @@ public class SecondFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         //Log.e("SecondFragment", "Created map view");
-
-        AssignData();
+        ListEarthQuakes = activity.getEarthQuakesData();
 
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.map_layout, container, false);
@@ -80,13 +80,6 @@ public class SecondFragment extends Fragment implements OnMapReadyCallback {
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.3f, -3.4), 5.0f));
     }
 
-    public void AssignData(){
-        dFeed = new DataFeed();
-        dFeed.execute();
-
-        ListEarthQuakes = dFeed.getEarthQuakes();
-    }
-
     public Float getMarkerColour(float magnitude){
         // Google map's markers' colours range from 0.0f to 360.0f with red being 0.0f and green being 120.0f
         float greenColour = 120.0f;
@@ -94,9 +87,9 @@ public class SecondFragment extends Fragment implements OnMapReadyCallback {
 
         // Getting the difference between highest magnitude and lowest magnitude that will be
         // later used to calculate the '%' requested magnitude is.
-        float magDiff = dFeed.getHighestMag() - dFeed.getLowestMag();
+        float magDiff = activity.getHighestMag() - activity.getLowestMag();
         // Need to subtract the lowest magnitude from the requested magnitude as well.
-        float newMag = magnitude - dFeed.getLowestMag();
+        float newMag = magnitude - activity.getLowestMag();
 
         // Avoiding division by 0. If the highest magnitude is the same as the lowest magnitude
         // then all the markers will be green.

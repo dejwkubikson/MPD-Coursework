@@ -26,53 +26,48 @@ import java.util.ArrayList;
 // Colour coding done intentionally in such a way that the weakest magnitude will be green, rather than treating 0.0f as green.
 public class FirstFragment extends Fragment {
     ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
-    DataFeed dFeed;
+    MainActivity activity;
 
     public FirstFragment()
     {
         // Empty public constructor
-        AssignData();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
+        activity = (MainActivity)getActivity();
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        ListEarthQuakes = activity.getEarthQuakesData();
+
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.list_layout, container, false);
         ListView listView = (ListView)root.findViewById(R.id.listView);
-
-        AssignData();
-
         FirstFragment.CustomAdapter adapter = new FirstFragment.CustomAdapter();
         listView.setAdapter(adapter);
 
         return root;
     }
 
-    public void AssignData(){
-        dFeed = new DataFeed();
-        dFeed.execute();
-
-        ListEarthQuakes = dFeed.getEarthQuakes();
-    }
-
     public Float getMagnitudeColourRatio(float magnitude){
-        //float newHighMag = dFeed.getHighestMag() - dFeed.getLowestMag();
-        //float newMag = magnitude - dFeed.getLowestMag();
+        // Green colour when ratio is 0.0f, red colour when ratio is 1.0f
+        float ratio = 0.0f;
+        // Getting the difference between highest magnitude and lowest magnitude that will be
+        // later used to calculate the '%' requested magnitude is.
+        float magDiff = activity.getHighestMag() - activity.getLowestMag();
+        // Need to subtract the lowest magnitude from the requested magnitude as well.
+        float newMag = magnitude - activity.getLowestMag();
 
-        //Log.e("FirstFragment", "newHighMag " + newHighMag + " newMag " + newMag + " ratio " + newMag / newHighMag);
-
-        // Returning ratio
-        if(dFeed.getHighestMag() > 0)
-            //return newMag / newHighMag;
-            return magnitude / dFeed.getHighestMag();
+        // Avoiding division by 0. If the highest magnitude is the same as the lowest magnitude
+        // then all the markers will be green.
+        if(magDiff > 0)
+            return ratio = newMag / magDiff;
         else
-            return 0.0f;
+            return ratio = 1.0f;
     }
 
     private class CustomAdapter extends BaseAdapter {
@@ -97,7 +92,6 @@ public class FirstFragment extends Fragment {
             View itemView = getLayoutInflater().inflate(R.layout.item_layout, null);
 
             TextView eID = itemView.findViewById(R.id.EarthQuakeID);
-            View eColour = itemView.findViewById(R.id.EarthQuakeColour);
             TextView mag = itemView.findViewById(R.id.Magnitude);
             TextView location = itemView.findViewById(R.id.Location);
             EarthQuake earthQuake = ListEarthQuakes.get(i);
@@ -108,9 +102,10 @@ public class FirstFragment extends Fragment {
 
             int resultColour = ColorUtils.blendARGB(Color.parseColor("#00FF00"), Color.parseColor("#FF0000"), getMagnitudeColourRatio(earthQuake.magnitude));
 
-            //Log.e("FirstFragment", "Magnitude: " + earthQuake.magnitude + " Hex colour " + Integer.toHexString(resultColour).substring(2));
+            // Changing the background colour to colour coding
+            itemView.findViewById(R.id.itemLayout).setBackgroundColor(resultColour);
 
-            eColour.setBackgroundColor(resultColour);
+            //Log.e("FirstFragment", "Magnitude: " + earthQuake.magnitude + " Hex colour " + Integer.toHexString(resultColour).substring(2));
 
             return itemView;
         }

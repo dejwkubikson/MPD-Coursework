@@ -8,15 +8,21 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
+
+    ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
+    DataFeed dFeed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AssignData();
 
         // Get the reference of ViewPager and TabLayout
         viewPager = (ViewPager)findViewById(R.id.view_pager);
@@ -63,5 +69,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public ArrayList<EarthQuake> getEarthQuakesData(){
+        return ListEarthQuakes;
+    }
+
+    public void AssignData(){
+        dFeed = new DataFeed();
+        dFeed.execute();
+
+        ListEarthQuakes = dFeed.getEarthQuakes();
+    }
+
+    public Float getHighestMag(){
+        return dFeed.getHighestMag();
+    }
+
+    public Float getLowestMag(){
+        return dFeed.getLowestMag();
     }
 }

@@ -67,8 +67,10 @@ public class DataFeed extends AsyncTask {
 
                             // Extracting location - looking for "Location:" and ";"
                             String location = description.substring(description.indexOf("Location:") + 9, (description.indexOf(";", description.indexOf("Location:") + 9))).trim();
-                            // Adding spaces after each commas (',')
+                            // Adding spaces after each comma (',')
                             location = location.replaceAll("[,]", "$0 ");
+                            // Adding spaces after and before each slash ('/')
+                            location = location.replaceAll("[/]", " $0 ");
 
                             earthQuake.location = location;
                             //Log.e("DataFeed", "location " + earthQuake.location);
@@ -107,7 +109,7 @@ public class DataFeed extends AsyncTask {
                         if(insideItem)
                         {
                             earthQuake.latitude = Float.parseFloat(xpp.nextText());
-                            Log.e("DataFeed", "latitude " + earthQuake.latitude);
+                            //Log.e("DataFeed", "latitude " + earthQuake.latitude);
                         }
                     }
                     else if(xpp.getName().equalsIgnoreCase("geo:long"))
@@ -115,7 +117,7 @@ public class DataFeed extends AsyncTask {
                         if(insideItem)
                         {
                             earthQuake.longitude = Float.parseFloat(xpp.nextText());
-                            Log.e("DataFeed", "longitude " + earthQuake.longitude);
+                            //Log.e("DataFeed", "longitude " + earthQuake.longitude);
                         }
                     }
                 }
