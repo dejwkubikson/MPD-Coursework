@@ -18,15 +18,16 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position)
     {
+        Log.e("PageAdapter", "getItem(" + position + ")");
         switch (position){
             case 0:
-                FirstFragment tab1 = new FirstFragment();
+                ListFragment tab1 = new ListFragment();
                 return tab1;
             case 1:
-                SecondFragment tab2 = new SecondFragment();
+                MapFragment tab2 = new MapFragment();
                 return tab2;
             case 2:
-                ThirdFragment tab3 = new ThirdFragment();
+                StatisticsFragment tab3 = new StatisticsFragment();
                 return tab3;
             default:
                 return null;

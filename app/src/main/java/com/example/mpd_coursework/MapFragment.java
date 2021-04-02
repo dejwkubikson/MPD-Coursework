@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 
@@ -23,13 +24,12 @@ import java.util.ArrayList;
 // Displays a map view which allows the user to zoom in/out to view the location of a specific earthquake.
 // Pins are colour coded as per the strength of the earthquake.
 // Colour coding done intentionally in such a way that the weakest magnitude will be green, rather than treating 0.0f as green.
-public class SecondFragment extends Fragment implements OnMapReadyCallback {
-    ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
+public class MapFragment extends Fragment implements OnMapReadyCallback {
     MainActivity activity;
 
     GoogleMap mMap;
 
-    public SecondFragment()
+    public MapFragment()
     {
         // Empty public constructor
     }
@@ -40,11 +40,19 @@ public class SecondFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
     }
 
+
+    /*@Nullable
+    @Override
+    public View getView() {
+        //Log.e("MapFragment", "getView()");
+
+        return super.getView();
+    }*/
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        //Log.e("SecondFragment", "Created map view");
-        ListEarthQuakes = activity.getEarthQuakesData();
+        //Log.e("MapFragment", "Created map view");
 
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.map_layout, container, false);
@@ -65,15 +73,15 @@ public class SecondFragment extends Fragment implements OnMapReadyCallback {
         //mMap.addMarker(new MarkerOptions().position(UCA).title("TEST").icon(BitmapDescriptorFactory.defaultMarker((BitmapDescriptorFactory.HUE_RED)))).showInfoWindow(); // showInfoWindow selects marker.
         //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(UCA,17));
 
-        for(int i = 0; i < ListEarthQuakes.size(); i++)
+        for(int i = 0; i < activity.ListEarthQuakes.size(); i++)
         {
-            EarthQuake earthQuake = ListEarthQuakes.get(i);
+            EarthQuake earthQuake = activity.ListEarthQuakes.get(i);
 
             //Log.e("SecondFragment", "Latitude: " + earthQuake.latitude + ", Longitude: " + earthQuake.longitude);
 
             LatLng mLocation = new LatLng(earthQuake.latitude, earthQuake.longitude);
 
-            mMap.addMarker(new MarkerOptions().position(mLocation).icon(BitmapDescriptorFactory.defaultMarker((getMarkerColour(earthQuake.magnitude)))).title(Float.toString(earthQuake.magnitude)));
+            mMap.addMarker(new MarkerOptions().position(mLocation).icon(BitmapDescriptorFactory.defaultMarker((getMarkerColour(earthQuake.magnitude)))).title(earthQuake.location).snippet("Magnitude: " + Float.toString(earthQuake.magnitude) + " Depth: " + Integer.toString(earthQuake.depth) + "km"));
         }
 
         // Setting the map's camera centre to UK's centre coordinates (55.3781° N, 3.4360° W) and zooming just about to get the whole UK
@@ -98,7 +106,7 @@ public class SecondFragment extends Fragment implements OnMapReadyCallback {
         else
             ratio = 0.0f;
 
-        //Log.e("SecondFragment", "Highest: " + dFeed.getHighestMag() + ", lowest: " + dFeed.getLowestMag() + ", ratio: " + ratio + ", float colour result: " + (greenColour - (greenColour * ratio)));
+        //Log.e("MapFragment", "Highest: " + dFeed.getHighestMag() + ", lowest: " + dFeed.getLowestMag() + ", ratio: " + ratio + ", float colour result: " + (greenColour - (greenColour * ratio)));
 
         // Now, with the given ratio, we can multiply the 120.0f and subtract that from the green colour value.
         return greenColour - (greenColour * ratio);

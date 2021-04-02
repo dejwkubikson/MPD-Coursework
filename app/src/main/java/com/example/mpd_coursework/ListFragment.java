@@ -1,34 +1,42 @@
 package com.example.mpd_coursework;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.FragmentTransaction;
 
-import java.util.ArrayList;
+import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 // Displays a list that the user can scroll through.
 // The list should simply display the location and strength of the earthquake.
 // Colour coding that displays the earthquakes from strongest to weakest.
 // Colour coding done intentionally in such a way that the weakest magnitude will be green, rather than treating 0.0f as green.
-public class FirstFragment extends Fragment {
-    ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
+public class ListFragment extends Fragment{
+    View view;
     MainActivity activity;
 
-    public FirstFragment()
+    public ListFragment()
     {
         // Empty public constructor
     }
@@ -42,13 +50,31 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        ListEarthQuakes = activity.getEarthQuakesData();
+        //ListEarthQuakes = activity.getEarthQuakesData();
 
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.list_layout, container, false);
         ListView listView = (ListView)root.findViewById(R.id.listView);
-        FirstFragment.CustomAdapter adapter = new FirstFragment.CustomAdapter();
+        ListFragment.CustomAdapter adapter = new ListFragment.CustomAdapter();
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //String selectedItem = (String)adapterView.getItemAtPosition(i);
+                //Log.e("ListFragment", "Selected earthquake ID" + selectedItem);
+
+                LinearLayout itemDetails = (LinearLayout)view.findViewById(R.id.itemDetails);
+                if(itemDetails.getVisibility() == View.VISIBLE)
+                {
+                    itemDetails.setVisibility(View.GONE);
+                }
+                else
+                {
+                    itemDetails.setVisibility(View.VISIBLE);
+                }
+
+            }
+        });
 
         return root;
     }
@@ -74,38 +100,53 @@ public class FirstFragment extends Fragment {
         @Override
         public int getCount()
         {
-            return ListEarthQuakes.size();
+            return activity.ListEarthQuakes.size();
         }
 
         @Override
         public Object getItem(int i) {
-            return null;
+            //Log.e("ListFragment", "getItem(" + i + ")");
+            return activity.ListEarthQuakes.get(i);
         }
 
         @Override
         public long getItemId(int i) {
-            return 0;
+            return activity.ListEarthQuakes.get(i).earthQuakeID;
         }
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             View itemView = getLayoutInflater().inflate(R.layout.item_layout, null);
 
-            TextView eID = itemView.findViewById(R.id.EarthQuakeID);
             TextView mag = itemView.findViewById(R.id.Magnitude);
             TextView location = itemView.findViewById(R.id.Location);
-            EarthQuake earthQuake = ListEarthQuakes.get(i);
+            EarthQuake earthQuake = activity.ListEarthQuakes.get(i);
 
-            eID.setText(Integer.toString(earthQuake.earthQuakeID));
             mag.setText(Float.toString(earthQuake.magnitude));
             location.setText(earthQuake.location);
+
+            // Item Details
+            TextView detLat = itemView.findViewById(R.id.detLatitude);
+            detLat.setText("Latitude: " + Float.toString(earthQuake.latitude));
+
+            TextView detLong = itemView.findViewById(R.id.detLongitude);
+            detLong.setText("Longitude: " + Float.toString(earthQuake.longitude));
+
+            TextView detDate = itemView.findViewById(R.id.detDateTime);
+            detDate.setText(earthQuake.eDate);
+
+            TextView detMag = itemView.findViewById(R.id.detMagnitude);
+            detMag.setText("Magnitude: " + Float.toString(earthQuake.magnitude));
+
+            TextView detDepth = itemView.findViewById(R.id.detDepth);
+            detDepth.setText("Depth: " + Integer.toString(earthQuake.depth));
 
             int resultColour = ColorUtils.blendARGB(Color.parseColor("#00FF00"), Color.parseColor("#FF0000"), getMagnitudeColourRatio(earthQuake.magnitude));
 
             // Changing the background colour to colour coding
             itemView.findViewById(R.id.itemLayout).setBackgroundColor(resultColour);
 
-            //Log.e("FirstFragment", "Magnitude: " + earthQuake.magnitude + " Hex colour " + Integer.toHexString(resultColour).substring(2));
+            //Log.e("ListFragment", "Magnitude: " + earthQuake.magnitude + " Hex colour " + Integer.toHexString(resultColour).substring(2));
 
             return itemView;
         }

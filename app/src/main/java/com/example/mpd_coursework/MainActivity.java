@@ -4,6 +4,9 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
@@ -71,15 +74,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public ArrayList<EarthQuake> getEarthQuakesData(){
-        return ListEarthQuakes;
-    }
-
     public void AssignData(){
         dFeed = new DataFeed();
         dFeed.execute();
 
         ListEarthQuakes = dFeed.getEarthQuakes();
+    }
+
+    public ArrayList<EarthQuake> getEarthQuakesData(){
+        return ListEarthQuakes;
     }
 
     public Float getHighestMag(){
@@ -88,5 +91,16 @@ public class MainActivity extends AppCompatActivity {
 
     public Float getLowestMag(){
         return dFeed.getLowestMag();
+    }
+
+    public EarthQuake getEarthQuakeByID(int id)
+    {
+        for(int i = 0; i < ListEarthQuakes.size(); i++)
+        {
+            if(ListEarthQuakes.get(i).earthQuakeID == id)
+                return ListEarthQuakes.get(i);
+        }
+
+        return null;
     }
 }
