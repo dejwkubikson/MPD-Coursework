@@ -18,6 +18,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Dawid Kubiak (S1717751)"
+                android:textAlignment="center" />
+
+            <TextView
                 android:id="@+id/space"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -116,7 +124,8 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/material_on_background_disabled"
                     android:text="SHOW"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/errorText"
@@ -175,9 +184,8 @@
                     android:layout_centerVertical="true"
                     android:text="Latitude: 56.607"
                     android:textAlignment="center"
-                    android:textColor="@color/gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/spacebar1"
@@ -215,9 +223,8 @@
                     android:layout_centerVertical="true"
                     android:text="Latitude: 56.607"
                     android:textAlignment="center"
-                    android:textColor="@color/gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/spacebar2"
@@ -255,9 +262,8 @@
                     android:layout_centerVertical="true"
                     android:text="Longitude: 10.607"
                     android:textAlignment="center"
-                    android:textColor="@color/gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/spacebar3"
@@ -295,9 +301,8 @@
                     android:layout_centerVertical="true"
                     android:text="Longitude: 10.607"
                     android:textAlignment="center"
-                    android:textColor="@color/gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/spacebar4"
@@ -335,9 +340,8 @@
                     android:layout_centerVertical="true"
                     android:text="Magnitude: 2.3"
                     android:textAlignment="center"
-                    android:textColor="@color/gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/spacebar5"
@@ -375,9 +379,8 @@
                     android:layout_centerVertical="true"
                     android:text="Depth: 34km"
                     android:textAlignment="center"
-                    android:textColor="@color/gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/spacebar6"
@@ -415,9 +418,8 @@
                     android:layout_centerVertical="true"
                     android:text="Depth: 34km"
                     android:textAlignment="center"
-                    android:textColor="@color/gray"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/spacebar7"

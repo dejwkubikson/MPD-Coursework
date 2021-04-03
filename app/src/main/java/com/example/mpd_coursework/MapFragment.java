@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
@@ -17,8 +18,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 // Displays a map view which allows the user to zoom in/out to view the location of a specific earthquake.
@@ -27,7 +30,11 @@ import java.util.ArrayList;
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     MainActivity activity;
 
-    GoogleMap mMap;
+    ArrayList<Marker> gMarkersList = new ArrayList<Marker>();
+
+    GoogleMap gMap;
+
+    Boolean btnEnabled = false;
 
     public MapFragment()
     {
@@ -41,13 +48,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    /*@Nullable
+    @Nullable
     @Override
     public View getView() {
         //Log.e("MapFragment", "getView()");
-
         return super.getView();
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -64,10 +70,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        gMap = googleMap;
 
         // Enabling Zoom in / out button
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        gMap.getUiSettings().setZoomControlsEnabled(true);
 
         //LatLng UCA = new LatLng(55, -4);
         //mMap.addMarker(new MarkerOptions().position(UCA).title("TEST").icon(BitmapDescriptorFactory.defaultMarker((BitmapDescriptorFactory.HUE_RED)))).showInfoWindow(); // showInfoWindow selects marker.
@@ -81,11 +87,46 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             LatLng mLocation = new LatLng(earthQuake.latitude, earthQuake.longitude);
 
-            mMap.addMarker(new MarkerOptions().position(mLocation).icon(BitmapDescriptorFactory.defaultMarker((getMarkerColour(earthQuake.magnitude)))).title(earthQuake.location).snippet("Magnitude: " + Float.toString(earthQuake.magnitude) + " Depth: " + Integer.toString(earthQuake.depth) + "km"));
+            Marker marker = gMap.addMarker(new MarkerOptions().position(mLocation).icon(BitmapDescriptorFactory.defaultMarker((getMarkerColour(earthQuake.magnitude)))).title(earthQuake.location).snippet("Magnitude: " + Float.toString(earthQuake.magnitude) + " Depth: " + Integer.toString(earthQuake.depth) + "km"));
+            gMarkersList.add(marker);
         }
 
         // Setting the map's camera centre to UK's centre coordinates (55.3781° N, 3.4360° W) and zooming just about to get the whole UK
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.3f, -3.4), 5.0f));
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.3f, -3.4), 5.0f));
+    }
+
+    public void selectMarker(int markerIndex)
+    {
+        if(gMarkersList.size() > markerIndex)
+            gMarkersList.get(markerIndex).showInfoWindow();
+    }
+
+    public void zoomMapCamera(float latitude, float longitude)
+    {
+        LatLng earthQuakePos = new LatLng(latitude, longitude);
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(earthQuakePos,8.0f));
+    }
+
+    public void enableBackButton()
+    {
+        Button backBtn = (Button)getView().findViewById(R.id.backBtn);
+        backBtn.setVisibility(View.VISIBLE);
+        btnEnabled = true;
+        backBtn.setOnClickListener(new View.OnClickListener(){
+           public void onClick(View v)
+            {
+                activity.viewPager.setCurrentItem(0);
+                backBtn.setVisibility(View.GONE);
+                btnEnabled = false;
+            }
+        });
+    }
+
+    public void hideBackButton()
+    {
+        Button backBtn = (Button)getView().findViewById(R.id.backBtn);
+        backBtn.setVisibility(View.GONE);
+        btnEnabled = false;
     }
 
     public Float getMarkerColour(float magnitude){

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int numOfTabs;
+    private Fragment currentFragment;
 
     public PagerAdapter(FragmentManager fm, int numOfTabs)
     {
@@ -18,7 +19,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position)
     {
-        Log.e("PageAdapter", "getItem(" + position + ")");
+        //Log.e("PageAdapter", "getItem(" + position + ")");
         switch (position){
             case 0:
                 ListFragment tab1 = new ListFragment();

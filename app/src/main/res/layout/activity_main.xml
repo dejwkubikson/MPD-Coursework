@@ -13,6 +13,13 @@
         android:theme="@style/Theme.MPDCoursework.AppBarOverlay">
 
         <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dawid Kubiak (S1717551)"
+            android:textAlignment="center" />
+
+        <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

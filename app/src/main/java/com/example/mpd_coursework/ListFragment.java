@@ -33,7 +33,6 @@ import java.net.URL;
 // Colour coding that displays the earthquakes from strongest to weakest.
 // Colour coding done intentionally in such a way that the weakest magnitude will be green, rather than treating 0.0f as green.
 public class ListFragment extends Fragment{
-    View view;
     MainActivity activity;
 
     public ListFragment()
@@ -64,6 +63,9 @@ public class ListFragment extends Fragment{
                 //Log.e("ListFragment", "Selected earthquake ID" + selectedItem);
 
                 LinearLayout itemDetails = (LinearLayout)view.findViewById(R.id.itemDetails);
+
+                //Log.e("ListFragment", "itemDetails Visibility " + itemDetails.getVisibility());
+
                 if(itemDetails.getVisibility() == View.VISIBLE)
                 {
                     itemDetails.setVisibility(View.GONE);
@@ -98,8 +100,7 @@ public class ListFragment extends Fragment{
 
     private class CustomAdapter extends BaseAdapter {
         @Override
-        public int getCount()
-        {
+        public int getCount(){
             return activity.ListEarthQuakes.size();
         }
 
@@ -139,7 +140,16 @@ public class ListFragment extends Fragment{
             detMag.setText("Magnitude: " + Float.toString(earthQuake.magnitude));
 
             TextView detDepth = itemView.findViewById(R.id.detDepth);
-            detDepth.setText("Depth: " + Integer.toString(earthQuake.depth));
+            detDepth.setText("Depth: " + Integer.toString(earthQuake.depth) + "km");
+
+            TextView mapView = itemView.findViewById(R.id.detMapView);
+            mapView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Log.e("ListFragment", "Clicked the view map button");
+                    activity.viewEarthQuakeOnMap(i);
+                }
+            });
 
             int resultColour = ColorUtils.blendARGB(Color.parseColor("#00FF00"), Color.parseColor("#FF0000"), getMagnitudeColourRatio(earthQuake.magnitude));
 

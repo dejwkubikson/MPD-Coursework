@@ -1,6 +1,8 @@
 package com.example.mpd_coursework;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -12,10 +14,13 @@ import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
+    PagerAdapter adapter;
 
     ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
     DataFeed dFeed;
@@ -32,22 +37,22 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout)findViewById(R.id.tabs);
 
         // Creating first Tab named "List"
-        TabLayout.Tab firstTab = tabLayout.newTab();
-        firstTab.setText("List");
+        TabLayout.Tab listTab = tabLayout.newTab();
+        listTab.setText("List");
         // Adding tab in the tabLayout
-        tabLayout.addTab(firstTab);
+        tabLayout.addTab(listTab);
 
         // Creating second Tab named "Map"
-        TabLayout.Tab secondTab = tabLayout.newTab();
-        secondTab.setText("Map");
-        tabLayout.addTab(secondTab);
+        TabLayout.Tab mapTab = tabLayout.newTab();
+        mapTab.setText("Map");
+        tabLayout.addTab(mapTab);
 
         // Creating third Tab named "Statistics"
-        TabLayout.Tab thirdTab = tabLayout.newTab();
-        thirdTab.setText("Statistics");
-        tabLayout.addTab(thirdTab);
+        TabLayout.Tab statsTab = tabLayout.newTab();
+        statsTab.setText("Statistics");
+        tabLayout.addTab(statsTab);
 
-        PagerAdapter adapter = new com.example.mpd_coursework.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        adapter = new com.example.mpd_coursework.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         // addOnPageChangeListener event change the tab on slide
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -58,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tabSelected)
             {
                 viewPager.setCurrentItem(tabSelected.getPosition());
+
+                // Hiding the back button on map in case the user didn't use it to get back to the list.
+                if(tabSelected.getPosition() == 1)
+                    callHideBtnOnMap();
             }
 
             @Override
@@ -72,6 +81,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        setDataFeedRefresh();
+    }
+
+    public void viewEarthQuakeOnMap(int earthQuakeID)
+    {
+        viewPager.setCurrentItem(1);
+        MapFragment mapFragment = (MapFragment)viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+        mapFragment.selectMarker(earthQuakeID);
+        mapFragment.zoomMapCamera(ListEarthQuakes.get(earthQuakeID).latitude, ListEarthQuakes.get(earthQuakeID).longitude);
+        mapFragment.enableBackButton();
+    }
+
+    public void callHideBtnOnMap()
+    {
+        MapFragment mapFragment = (MapFragment)viewPager.getAdapter().instantiateItem(viewPager, viewPager.getCurrentItem());
+        if(mapFragment.btnEnabled)
+            mapFragment.hideBackButton();
     }
 
     public void AssignData(){
@@ -102,5 +129,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return null;
+    }
+
+    private void setDataFeedRefresh()
+    {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask(){
+            @Override
+            public void run(){
+             handler.post(new Runnable() {
+                 @Override
+                 public void run() {
+                     try{
+                         AssignData();
+                         adapter.notifyDataSetChanged();
+                     }catch(Exception e){
+                        Log.e("MainActivity", "Failed to refresh data.");
+                     }
+                 }
+             });
+            }
+        };
+
+        // Setting interval to every 60 minutes (1 hour) since the earthquakes aren't that common
+        timer.schedule(task, 0, 60*60*1000);
     }
 }
