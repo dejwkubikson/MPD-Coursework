@@ -28,10 +28,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+// Dawid Kubiak (S1717751)
 // Displays a list that the user can scroll through.
-// The list should simply display the location and strength of the earthquake.
-// Colour coding that displays the earthquakes from strongest to weakest.
+// The list simply displays the location and strength of the earthquake with colour coding that displays the earthquakes from strongest to weakest.
 // Colour coding done intentionally in such a way that the weakest magnitude will be green, rather than treating 0.0f as green.
+// When the earthquake item is clicked, the item is 'expanded' which displays further details of the earthquake.
 public class ListFragment extends Fragment{
     MainActivity activity;
 

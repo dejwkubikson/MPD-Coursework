@@ -1,4 +1,5 @@
 <resources>
+    <!-- Dawid Kubiak (S1717751) -->
     <string name="app_name">MPD Coursework</string>
     <string name="tab_text_1">List</string>
     <string name="tab_text_2">Map</string>

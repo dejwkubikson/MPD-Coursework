@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+// Dawid Kubiak (S1717751)
+// Responsible for passing the data to the fragments.
 public class MainActivity extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -38,18 +40,18 @@ public class MainActivity extends AppCompatActivity {
 
         // Creating first Tab named "List"
         TabLayout.Tab listTab = tabLayout.newTab();
-        listTab.setText("List");
+        listTab.setText(getString(R.string.tab_text_1));
         // Adding tab in the tabLayout
         tabLayout.addTab(listTab);
 
         // Creating second Tab named "Map"
         TabLayout.Tab mapTab = tabLayout.newTab();
-        mapTab.setText("Map");
+        mapTab.setText(getString(R.string.tab_text_2));
         tabLayout.addTab(mapTab);
 
         // Creating third Tab named "Statistics"
         TabLayout.Tab statsTab = tabLayout.newTab();
-        statsTab.setText("Statistics");
+        mapTab.setText(getString(R.string.tab_text_3));
         tabLayout.addTab(statsTab);
 
         adapter = new com.example.mpd_coursework.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());

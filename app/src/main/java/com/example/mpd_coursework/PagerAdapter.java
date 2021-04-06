@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+// Dawid Kubiak (S1717751)
 public class PagerAdapter extends FragmentStatePagerAdapter {
     int numOfTabs;
     private Fragment currentFragment;

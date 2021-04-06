@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Dawid Kubiak (S1717751) -->
     <color name="brown_main">#A77964</color>
     <color name="brown_dark">#856050</color>
     <color name="brown_light">#B89383</color>

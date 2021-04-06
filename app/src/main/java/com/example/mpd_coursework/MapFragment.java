@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+// Dawid Kubiak (S1717751)
 // Displays a map view which allows the user to zoom in/out to view the location of a specific earthquake.
 // Pins are colour coded as per the strength of the earthquake.
 // Colour coding done intentionally in such a way that the weakest magnitude will be green, rather than treating 0.0f as green.

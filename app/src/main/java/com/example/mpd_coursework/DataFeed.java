@@ -13,8 +13,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-
 // Dawid Kubiak (S1717751)
+// Gathers the data using an asynchronous method from the http://quakes.bgs.ac.uk/feeds/MhSeismology.xml website.
+// The XML file stored on the mentioned page is broken down and the gathered data is stored as an EarthQuake class - each earthquake being a separate EarthQuake Java class.
+// All the EarthQuakes are then stored in an array list. The DataFeed class is accessible from MainActivity.
 public class DataFeed extends AsyncTask {
     private String urlSource = "http://quakes.bgs.ac.uk/feeds/MhSeismology.xml";
     ArrayList<EarthQuake> earthQuakes = new ArrayList<EarthQuake>();
@@ -55,7 +57,7 @@ public class DataFeed extends AsyncTask {
                     {
                         if(insideItem)
                         {
-                            // Used for testing purposes
+                            // Used for testing
                             //Log.e("DataFeed", "Title " + xpp.nextText());
                         }
                     }

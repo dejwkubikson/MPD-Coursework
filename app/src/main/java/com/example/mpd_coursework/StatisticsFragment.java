@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 
+// Dawid Kubiak (S1717751)
 public class StatisticsFragment extends Fragment implements View.OnClickListener {
     View view;
     MainActivity activity;
