@@ -1,7 +1,9 @@
 package com.example.mpd_coursework;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 // Dawid Kubiak (S1717751)
 // Displays a map view which allows the user to zoom in/out to view the location of a specific earthquake.
@@ -30,11 +34,8 @@ import java.util.ArrayList;
 // Colour coding done intentionally in such a way that the weakest magnitude will be green, rather than treating 0.0f as green.
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     MainActivity activity;
-
     ArrayList<Marker> gMarkersList = new ArrayList<Marker>();
-
     GoogleMap gMap;
-
     Boolean btnEnabled = false;
 
     public MapFragment()
@@ -44,7 +45,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onCreate(Bundle savedInstanceState){
-        activity = (MainActivity)getActivity();
         super.onCreate(savedInstanceState);
     }
 
@@ -76,24 +76,50 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         // Enabling Zoom in / out button
         gMap.getUiSettings().setZoomControlsEnabled(true);
 
-        //LatLng UCA = new LatLng(55, -4);
-        //mMap.addMarker(new MarkerOptions().position(UCA).title("TEST").icon(BitmapDescriptorFactory.defaultMarker((BitmapDescriptorFactory.HUE_RED)))).showInfoWindow(); // showInfoWindow selects marker.
-        //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(UCA,17));
-
-        for(int i = 0; i < activity.ListEarthQuakes.size(); i++)
-        {
-            EarthQuake earthQuake = activity.ListEarthQuakes.get(i);
-
-            //Log.e("SecondFragment", "Latitude: " + earthQuake.latitude + ", Longitude: " + earthQuake.longitude);
-
-            LatLng mLocation = new LatLng(earthQuake.latitude, earthQuake.longitude);
-
-            Marker marker = gMap.addMarker(new MarkerOptions().position(mLocation).icon(BitmapDescriptorFactory.defaultMarker((getMarkerColour(earthQuake.magnitude)))).title(earthQuake.location).snippet("Magnitude: " + Float.toString(earthQuake.magnitude) + " Depth: " + Integer.toString(earthQuake.depth) + "km"));
-            gMarkersList.add(marker);
-        }
+        // Get the markers
+        setupMarkers();
 
         // Setting the map's camera centre to UK's centre coordinates (55.3781° N, 3.4360° W) and zooming just about to get the whole UK
         gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(55.3f, -3.4), 5.0f));
+    }
+
+    private void setupMarkers()
+    {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+
+        TimerTask task = new TimerTask(){
+            @Override
+            public void run(){
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        activity = (MainActivity)getActivity();
+
+                        if(activity.ListEarthQuakes.size() > 0)
+                        {
+                            for(int i = 0; i < activity.ListEarthQuakes.size(); i++)
+                            {
+                                EarthQuake earthQuake = activity.ListEarthQuakes.get(i);
+
+                                //Log.e("SecondFragment", "Latitude: " + earthQuake.latitude + ", Longitude: " + earthQuake.longitude);
+
+                                LatLng mLocation = new LatLng(earthQuake.latitude, earthQuake.longitude);
+
+                                Marker marker = gMap.addMarker(new MarkerOptions().position(mLocation).icon(BitmapDescriptorFactory.defaultMarker((getMarkerColour(earthQuake.magnitude)))).title(earthQuake.location).snippet("Magnitude: " + Float.toString(earthQuake.magnitude) + " Depth: " + Integer.toString(earthQuake.depth) + "km"));
+                                gMarkersList.add(marker);
+                            }
+
+                            timer.cancel();
+                            timer.purge();
+                        }
+                    }
+                });
+            }
+        };
+
+        // Setting interval to every second
+        timer.schedule(task, 0, 1000);
     }
 
     public void selectMarker(int markerIndex)

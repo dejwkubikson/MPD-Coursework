@@ -27,12 +27,42 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<EarthQuake> ListEarthQuakes = new ArrayList<EarthQuake>();
     DataFeed dFeed;
 
+    float highestMag = 0.0f;
+    float lowestMag = Float.MAX_VALUE;
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        //Log.e("MainActivity", "onResume() ListEarthQuakes.size() " + ListEarthQuakes.size());
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        //Log.e("MainActivity", "onSaveInstanceState()");
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("EarthQuakesData", ListEarthQuakes);
+        savedInstanceState.putFloat("highestMag", getHighestMag());
+        savedInstanceState.putFloat("lowestMag", getLowestMag());
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        Log.e("MainActivity", "onRestoreInstanceState()");
+        super.onRestoreInstanceState(savedInstanceState);
+        ListEarthQuakes = savedInstanceState.getParcelableArrayList("EarthQuakesData");
+        highestMag = savedInstanceState.getFloat("highestMag");
+        lowestMag = savedInstanceState.getFloat("lowestMag");
+        //Log.e("MainActivity", "onRestoreInstanceState() ListEarthQuakes.size() " + ListEarthQuakes.size());
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        AssignData();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        AssignData();
 
         // Get the reference of ViewPager and TabLayout
         viewPager = (ViewPager)findViewById(R.id.view_pager);
@@ -51,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Creating third Tab named "Statistics"
         TabLayout.Tab statsTab = tabLayout.newTab();
-        mapTab.setText(getString(R.string.tab_text_3));
+        statsTab.setText(getString(R.string.tab_text_3));
         tabLayout.addTab(statsTab);
 
         adapter = new com.example.mpd_coursework.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());

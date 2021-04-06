@@ -21,6 +21,10 @@ import java.util.Date;
 import java.util.Hashtable;
 
 // Dawid Kubiak (S1717751)
+// Allows the user to enter a specific date or date range and shows the following information:
+// - Most Northerly / Southerly / Westerly / Easterly earthquake
+// - Largest magnitude Earthquake
+// - Deepest and shallowest earthquake
 public class StatisticsFragment extends Fragment implements View.OnClickListener {
     View view;
     MainActivity activity;
