@@ -50,8 +50,6 @@ public class ListFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        //ListEarthQuakes = activity.getEarthQuakesData();
-
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.list_layout, container, false);
         ListView listView = (ListView)root.findViewById(R.id.listView);
@@ -84,7 +82,6 @@ public class ListFragment extends Fragment{
 
     public Float getMagnitudeColourRatio(float magnitude){
         // Green colour when ratio is 0.0f, red colour when ratio is 1.0f
-        float ratio = 0.0f;
         // Getting the difference between highest magnitude and lowest magnitude that will be
         // later used to calculate the '%' requested magnitude is.
         float magDiff = activity.getHighestMag() - activity.getLowestMag();
@@ -92,11 +89,11 @@ public class ListFragment extends Fragment{
         float newMag = magnitude - activity.getLowestMag();
 
         // Avoiding division by 0. If the highest magnitude is the same as the lowest magnitude
-        // then all the markers will be green.
+        // then all the items will be green.
         if(magDiff > 0)
-            return ratio = newMag / magDiff;
+            return newMag / magDiff;
         else
-            return ratio = 1.0f;
+            return 0.0f;
     }
 
     private class CustomAdapter extends BaseAdapter {

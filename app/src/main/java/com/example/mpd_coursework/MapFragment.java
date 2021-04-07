@@ -119,7 +119,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         };
 
         // Setting interval to every second
-        timer.schedule(task, 0, 1000);
+        if(timer != null)
+            timer.schedule(task, 0, 1000);
     }
 
     public void selectMarker(int markerIndex)

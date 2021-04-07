@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        Log.e("MainActivity", "onRestoreInstanceState()");
+        //Log.e("MainActivity", "onRestoreInstanceState()");
         super.onRestoreInstanceState(savedInstanceState);
         ListEarthQuakes = savedInstanceState.getParcelableArrayList("EarthQuakesData");
         highestMag = savedInstanceState.getFloat("highestMag");

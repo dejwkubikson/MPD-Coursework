@@ -137,14 +137,17 @@ public class DataFeed extends AsyncTask {
         catch(MalformedURLException e)
         {
             e.printStackTrace();
+            Log.e("DataFeed", "MalformedURLException: " + e.getMessage());
         }
         catch (XmlPullParserException e)
         {
             e.printStackTrace();
+            Log.e("DataFeed", "XmlPullParserException: " + e.getMessage());
         }
         catch(IOException e)
         {
             e.printStackTrace();
+            Log.e("DataFeed", "IOException: " + e.getMessage());
         }
 
         return earthQuakes;

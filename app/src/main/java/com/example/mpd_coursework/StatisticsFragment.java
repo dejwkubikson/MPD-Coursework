@@ -1,5 +1,6 @@
 package com.example.mpd_coursework;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +29,10 @@ import java.util.Hashtable;
 public class StatisticsFragment extends Fragment implements View.OnClickListener {
     View view;
     MainActivity activity;
+    Boolean dataDisplayed = false;
+    Boolean dateRange = false;
+    String strDateFrom = "";
+    String strDateTo = "";
 
     public StatisticsFragment()
     {
@@ -37,6 +42,66 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            strDateFrom = savedInstanceState.getString("dateFrom");
+            strDateTo = savedInstanceState.getString("dateTo");
+            dataDisplayed = savedInstanceState.getBoolean("dataDisplayed");
+            dateRange = savedInstanceState.getBoolean("dateRange");
+
+            //Log.e("StatisticsFragment", "strDateFrom " + strDateFrom + " strDateTo " + strDateTo + " dataDispalyed " + dataDisplayed + " dateRange " + dateRange);
+
+            if(dataDisplayed)
+            {
+                if(strDateFrom.length() == 10 && strDateTo.length() == 10)
+                {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    try{
+                        GetStatistics(sdf.parse(strDateFrom), sdf.parse(strDateTo));
+                    }catch(ParseException e){
+                        ShowError("Couldn't parse the date.");
+                    }
+                }
+            }
+
+            if(dateRange)
+            {
+                // Changing visibility
+                LinearLayout dateToLayout = (LinearLayout)view.findViewById(R.id.dateToLayout);
+                if(dateToLayout != null)
+                    dateToLayout.setVisibility(View.VISIBLE);
+                // Changing Date text
+                TextView datePlainTV = (TextView)view.findViewById(R.id.datePlainText);
+                if(datePlainTV != null)
+                    datePlainTV.setText("Date From");
+            }
+            else
+            {
+                // Changing visibility
+                LinearLayout dateToLayout = (LinearLayout)view.findViewById(R.id.dateToLayout);
+                if(dateToLayout != null)
+                    dateToLayout.setVisibility(View.GONE);
+                // Changing Date text
+                TextView datePlainTV = (TextView)view.findViewById(R.id.datePlainText);
+                if(datePlainTV != null)
+                    datePlainTV.setText("Date");
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putBoolean("dataDisplayed", dataDisplayed);
+        savedInstanceState.putBoolean("dateRange", dateRange);
+        savedInstanceState.putString("dateFrom", strDateFrom);
+        savedInstanceState.putString("dateTo", strDateTo);
     }
 
     @Nullable
@@ -49,13 +114,13 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.stats_layout, container, false);
         Switch dateSwitch = (Switch)view.findViewById(R.id.dateSwitch);
         dateSwitch.setOnClickListener(this);
         Button showBtn = (Button)view.findViewById(R.id.showBtn);
         showBtn.setOnClickListener(this);
 
-        // Inflate the layout for this fragment
         return view;
     }
 
@@ -107,13 +172,20 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 try{
                     Date dateFrom = sdf.parse(dateFromTV.getText().toString());
+                    strDateFrom = dateFromTV.getText().toString();
                     Date dateTo = new Date();
                     if(dateSwitch.isChecked())
+                    {
                         dateTo = sdf.parse(dateToTV.getText().toString());
-                    else
+                        strDateTo = dateToTV.getText().toString();
+                    }else
+                    {
                         dateTo = dateFrom;
+                        strDateTo = strDateFrom;
+                    }
 
                     GetStatistics(dateFrom, dateTo);
+
                 }catch(ParseException e){
                     Log.e("ThirdFragment", "Couldn't parse the dates.");
                     ShowError("An error occurred when converting the date.");
@@ -130,6 +202,8 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
                     // Changing Date text
                     TextView datePlainTV = (TextView)view.findViewById(R.id.datePlainText);
                     datePlainTV.setText("Date From");
+
+                    dateRange = true;
                 }
                 else
                 {
@@ -139,19 +213,21 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
                     // Changing Date From text
                     TextView datePlainTV = (TextView)view.findViewById(R.id.datePlainText);
                     datePlainTV.setText("Date");
+
+                    dateRange = false;
                 }
                 break;
         }
     }
 
     public void GetStatistics(Date dateFrom, Date dateTo) {
-        Log.e("StatisticsFragment","GetStatistics(" + dateFrom + ", " + dateTo + ")");
+        //Log.e("StatisticsFragment","GetStatistics(" + dateFrom + ", " + dateTo + ")");
         activity = (MainActivity)getActivity();
-
+        dataDisplayed = false;
         if(activity == null)
             return;
 
-        Log.e("StatisticsFragment", "Date from: " + dateFrom + ", date to: " + dateTo);
+        //Log.e("StatisticsFragment", "Date from: " + dateFrom + ", date to: " + dateTo);
 
         // Highest latitude
         float north = -Float.MAX_VALUE;
@@ -242,14 +318,14 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
             }
         }
 
-        Log.e("StatisticsFragment", "Total earth quakes within date range: " + totalEarthQuakes);
+        /*Log.e("StatisticsFragment", "Total earth quakes within date range: " + totalEarthQuakes);
         Log.e("StatisticsFragment", "Most northerly " + statsDict.get("North"));
         Log.e("StatisticsFragment", "Most easterly " + statsDict.get("East"));
         Log.e("StatisticsFragment", "Most southerly " + statsDict.get("South"));
         Log.e("StatisticsFragment", "Most westerly " + statsDict.get("West"));
         Log.e("StatisticsFragment", "Highest magnitude " + statsDict.get("Magnitude"));
         Log.e("StatisticsFragment", "Deepest " + statsDict.get("Deepest"));
-        Log.e("StatisticsFragment", "Shallowest " + statsDict.get("Shallowest"));
+        Log.e("StatisticsFragment", "Shallowest " + statsDict.get("Shallowest"));*/
         if(totalEarthQuakes > 0)
         {
             ShowStats("North", activity.getEarthQuakeByID(statsDict.get("North")));
@@ -259,6 +335,7 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
             ShowStats("Magnitude", activity.getEarthQuakeByID(statsDict.get("Magnitude")));
             ShowStats("Deepest", activity.getEarthQuakeByID(statsDict.get("Deepest")));
             ShowStats("Shallowest", activity.getEarthQuakeByID(statsDict.get("Shallowest")));
+            dataDisplayed = true;
         }
         else
         {
