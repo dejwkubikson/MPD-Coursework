@@ -1,0 +1,26 @@
+com/example/mpd_coursework/MapFragment.java
+ com.example.mpd_coursework.MapFragment
+ com.example.mpd_coursework.MapFragment$1
+ com.example.mpd_coursework.MapFragment$1$1
+ com.example.mpd_coursework.MapFragment$2
+com/example/mpd_coursework/BuildConfig.java
+ com.example.mpd_coursework.BuildConfig
+com/example/mpd_coursework/EarthQuake.java
+ com.example.mpd_coursework.EarthQuake
+ com.example.mpd_coursework.EarthQuake$1
+com/example/mpd_coursework/ListFragment.java
+ com.example.mpd_coursework.ListFragment
+ com.example.mpd_coursework.ListFragment$1
+ com.example.mpd_coursework.ListFragment$CustomAdapter
+ com.example.mpd_coursework.ListFragment$CustomAdapter$1
+com/example/mpd_coursework/DataFeed.java
+ com.example.mpd_coursework.DataFeed
+com/example/mpd_coursework/StatisticsFragment.java
+ com.example.mpd_coursework.StatisticsFragment
+com/example/mpd_coursework/PagerAdapter.java
+ com.example.mpd_coursework.PagerAdapter
+com/example/mpd_coursework/MainActivity.java
+ com.example.mpd_coursework.MainActivity
+ com.example.mpd_coursework.MainActivity$1
+ com.example.mpd_coursework.MainActivity$2
+ com.example.mpd_coursework.MainActivity$2$1
