@@ -2,6 +2,7 @@ package com.example.mpd_coursework;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,19 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 // Dawid Kubiak (S1717751)
 // Allows the user to enter a specific date or date range and shows the following information:
@@ -58,14 +66,11 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
 
             if(dataDisplayed)
             {
-                if(strDateFrom.length() == 10 && strDateTo.length() == 10)
-                {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    try{
-                        GetStatistics(sdf.parse(strDateFrom), sdf.parse(strDateTo));
-                    }catch(ParseException e){
-                        ShowError("Couldn't parse the date.");
-                    }
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                try{
+                    GetStatistics(sdf.parse(strDateFrom), sdf.parse(strDateTo));
+                }catch(ParseException e){
+                    ShowError("Couldn't parse the date.");
                 }
             }
 
@@ -224,10 +229,8 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         //Log.e("StatisticsFragment","GetStatistics(" + dateFrom + ", " + dateTo + ")");
         activity = (MainActivity)getActivity();
         dataDisplayed = false;
-        if(activity == null)
-            return;
 
-        //Log.e("StatisticsFragment", "Date from: " + dateFrom + ", date to: " + dateTo);
+        Log.e("StatisticsFragment", "Date from: " + dateFrom + ", date to: " + dateTo);
 
         // Highest latitude
         float north = -Float.MAX_VALUE;
@@ -258,6 +261,15 @@ public class StatisticsFragment extends Fragment implements View.OnClickListener
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
 
         int totalEarthQuakes = 0;
+
+        long startTime = System.currentTimeMillis();
+        long secondsTaken = 0;
+        while(activity.ListEarthQuakes.size() == 0 && secondsTaken < 3)
+        {
+            secondsTaken = (System.currentTimeMillis() - startTime) / 1000;
+        }
+
+        Log.e("Stats", "secondsTaken " + secondsTaken);
 
         for (int i = 0; i < activity.ListEarthQuakes.size(); i++) {
             EarthQuake earthQuake = activity.ListEarthQuakes.get(i);

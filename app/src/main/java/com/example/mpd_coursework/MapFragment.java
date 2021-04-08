@@ -96,6 +96,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                     public void run() {
                         activity = (MainActivity)getActivity();
 
+                        if(activity == null)
+                            return;
+
                         if(activity.ListEarthQuakes.size() > 0)
                         {
                             for(int i = 0; i < activity.ListEarthQuakes.size(); i++)

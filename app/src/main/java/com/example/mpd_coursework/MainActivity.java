@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         ListEarthQuakes = savedInstanceState.getParcelableArrayList("EarthQuakesData");
         highestMag = savedInstanceState.getFloat("highestMag");
         lowestMag = savedInstanceState.getFloat("lowestMag");
-        //Log.e("MainActivity", "onRestoreInstanceState() ListEarthQuakes.size() " + ListEarthQuakes.size());
         adapter.notifyDataSetChanged();
+        //Log.e("MainActivity", "onRestoreInstanceState() ListEarthQuakes.size() " + ListEarthQuakes.size());
     }
 
     @Override
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         // addOnPageChangeListener event change the tab on slide
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
+        adapter.notifyDataSetChanged();
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
         {
             @Override
